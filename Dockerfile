@@ -1,10 +1,24 @@
-FROM python:3.11-slim
+# utilização de imagem base Python
+FROM python:3.9-slim
 
+# Define o diretório de trabalho
 WORKDIR /app
 
-RUN apt update  && apt install -y git vim
+# Copia o requirements.txt e instala as dependências 
+COPY app/requirements.txt .
 
-COPY requirements.txt ./
+# Instalação
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN python -m pip install --upgrade pip  && python -m pip install -r requirements.txt
+#Copia o código da aplicação
+COPY app/ .
 
+# Define a variavel de ambiente 
+ENV FLASK_APP=server.py
+ENV FLASK_RUN_HOST=0.0.0.0
+
+# Expõe porta
+EXPOSE 500
+
+# Comando para rodar a aplicação
+CMD ["flask", "run"]

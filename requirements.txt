@@ -1,5 +1,0 @@
-# Biblioteca para se comunicar com o MongoDB
-pymongo
-# Biblioteca oficial da AWS para interagir com serviços como o S3
-boto3
-

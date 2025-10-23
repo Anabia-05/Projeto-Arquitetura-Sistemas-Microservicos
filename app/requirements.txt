@@ -1,0 +1,7 @@
+flask #configura servidor web
+flask-jsonpify 
+flask-restful 
+pymongo #manipulação do banco de dados mongodb
+boto3
+
+

@@ -31,7 +31,6 @@ class Patients(Resource):
         contact = data.get('contact')
         birth_date = data.get('birth_date')
 
-        # ... (o restante do código, que já estava bom)
         if not name:
             return jsonify({"erro": "Name is required"}), 400
 

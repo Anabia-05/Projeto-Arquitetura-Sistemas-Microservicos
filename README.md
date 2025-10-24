@@ -54,9 +54,7 @@ Você pode testar via `curl` (recomendado: **Git Bash**).
 Cria um novo registro de paciente:
 
 ```bash
-curl -X POST http://localhost:5000/patients \
-  -H "Content-Type: application/json" \
-  -d '{"name": "João da Silva", "contact": "9999-5555", "birth_date": "1980-01-01"}'
+curl localhost:5000/patients -H "Content-Type: application-json" -d '{"name":"teste", "contact": "9999-9999", "birth_date":"2020-01-01"}'
 ```
 
 **Retorno esperado:**
@@ -85,10 +83,7 @@ curl http://localhost:5000/patients
 Atualiza campos de um paciente já cadastrado:
 
 ```bash
-# Exemplo de PUT (atualiza o contato)
-curl -X PUT http://localhost:5000/patients/{ID_DO_PACIENTE} \
-  -H "Content-Type: application/json" \
-  -d '{"contact": "1111-2222"}'
+curl -X PUT http://localhost:5000/patients/{ID_DO_PACIENTE} -H "Content-Type: application/json" -d '{"contact": "1111-2222"}'
 ```
 
 ---

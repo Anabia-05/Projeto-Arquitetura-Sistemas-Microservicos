@@ -54,7 +54,7 @@ Você pode testar via `curl` (recomendado: **Git Bash**).
 Cria um novo registro de paciente:
 
 ```bash
-curl localhost:5000/patients -H "Content-Type: application-json" -d '{"name":"teste", "contact": "9999-9999", "birth_date":"2020-01-01"}'
+curl localhost:5000/patients -H "Content-Type: application-json" -d '{"nome": "teste", "cpf": "111.111.111-11", "data_nascimento": "01-01-2000" , "contato": "9999-9999", "cep": "51010-500" ,"endereco": "rua hospital felz,200" ,"nome_mae": "florzinha", "conato_emergencia": "8888-8888", "tipo_sanguineo": "AB+"}'
 ```
 
 **Retorno esperado:**

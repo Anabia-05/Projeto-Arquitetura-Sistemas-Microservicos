@@ -57,15 +57,6 @@ Cria um novo registro de paciente:
 curl localhost:5000/patients -H "Content-Type: application-json" -d '{"nome": "teste", "cpf": "111.111.111-11", "data_nascimento": "01-01-2000" , "contato": "9999-9999", "cep": "51010-500" ,"endereco": "rua hospital felz,200" ,"nome_mae": "florzinha", "conato_emergencia": "8888-8888", "tipo_sanguineo": "AB+"}'
 ```
 
-**Retorno esperado:**
-
-```json
-{
-  "message": "Added patient!",
-  "id": "um_id_unico_do_mongodb"
-}
-```
-
 ---
 
 ### 2. Buscar Todos os Pacientes (`GET /patients`)
@@ -78,22 +69,32 @@ curl http://localhost:5000/patients
 
 ---
 
-### 3. Atualizar Dados de um Paciente (`PUT /patients/{id}`)
+### 3. Buscar um Paciente por CPF(`GET /patients/{cpf}`)
 
-Atualiza campos de um paciente já cadastrado:
+Recupera a lista completa de pacientes:
 
 ```bash
-curl -X PUT http://localhost:5000/patients/{ID_DO_PACIENTE} -H "Content-Type: application/json" -d '{"contact": "1111-2222"}'
+curl http://localhost:5000/patients/111.222.333-44
 ```
 
 ---
 
-### 4. Deletar um Paciente (`DELETE /patients/{id}`)
+### 4. Atualizar Dados de um Paciente (`PUT /patients/{cpf}`)
+
+Atualiza campos de um paciente já cadastrado:
+
+```bash
+curl -X PUT http://localhost:5000/patients/111.222.333-44 -H "Content-Type: application/json" -d '{"contato": "1111-2222"}'
+```
+
+---
+
+### 5. Deletar um Paciente (`DELETE /patients/{cpf}`)
 
 Remove o paciente do banco de dados:
 
 ```bash
-curl -X DELETE http://localhost:5000/patients/{ID_DO_PACIENTE}
+curl -X DELETE http://localhost:5000/patients/111.222.333-44
 ```
 
 ---

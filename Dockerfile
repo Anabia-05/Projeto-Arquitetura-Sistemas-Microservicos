@@ -18,7 +18,7 @@ ENV FLASK_APP=server.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
 # Expõe porta
-EXPOSE 500
+EXPOSE 5000
 
 # Comando para rodar a aplicação
 CMD ["flask", "run"]

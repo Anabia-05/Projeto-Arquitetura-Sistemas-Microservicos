@@ -3,7 +3,61 @@ from flask_restful import Resource, Api
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError 
 import os 
-import re 
+import re
+import boto3
+import logging
+from botocore.exceptions import ClientError
+import uuid
+from werkzeug.utils import secure_filename
+
+
+
+AWS_REGION = "us-east-2"
+S3_BUCKET_NAME = "arquitetura-sistemas"
+s3_client = boto3.client('s3', region_name=AWS_REGION)
+
+logging.basicConfig(level=logging.INFO)
+
+
+def upload_file_to_s3(file, bucket_name, object_name=None):
+    if object_name is None:
+        object_name = secure_filename(file.filename)
+
+    try:
+        s3_client.upload_fileobj(file, bucket_name, object_name)
+    except ClientError as e:
+        logging.error(f"Erro ao fazer upload do arquivo!")
+        return None
+    return object_name
+
+class FileUpload(Resource):
+    def post(self, id):
+        user = collection.find_one({"_id": id})
+        if user is None:
+            return {"erro": "Paciente não encontrado!"}, 404
+        
+        if 'file' not in request.files:
+            return {"erro": "Nenhum arquivo fornecido!"}, 400
+        
+        file = request.files['file']
+        if file.filename == '':
+            return {"erro": "Nome do arquivo vazio!"}, 400
+        
+        # ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg'}
+        # if not allowed_file(file.filename, ALLOWED_EXTENSIONS):
+        #    return {"erro": "Extensão de arquivo não permitida."}, 400
+
+        unique_filename = f"{id}_{uuid.uuid4().hex}_{secure_filename(file.filename)}"
+        s3_key = upload_file_to_s3(file, S3_BUCKET_NAME, unique_filename)
+        if s3_key is None:
+            return {"erro": "Falha ao fazer upload do arquivo."}, 500
+        
+        file_url = f"https://{S3_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com/{s3_key}"
+
+        collection.update_one({"_id": id}, {"$push": {"files": file_url}})
+
+        return jsonify({"message": "Arquivo enviado com sucesso!", "file_url": file_url})
+    
 
 
 mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017")
@@ -142,6 +196,7 @@ class PatientById(Resource):
 
 api.add_resource(Patients, '/patients')
 api.add_resource(PatientById, '/patients/<id>')
+api.add_resource(FileUpload, '/patients/<id>/upload')
 
 if __name__ == '__main__':
     app.run()

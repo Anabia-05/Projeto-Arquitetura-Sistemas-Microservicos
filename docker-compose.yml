@@ -9,6 +9,8 @@ services:
       - mongo
     environment:
       -  MONGO_URI=mongodb://root:example@mongo:27017/
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     volumes:
       - ./app:/app
 

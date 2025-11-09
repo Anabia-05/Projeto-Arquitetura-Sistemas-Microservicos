@@ -11,7 +11,6 @@ import uuid
 from werkzeug.utils import secure_filename
 
 
-
 AWS_REGION = "us-east-2"
 S3_BUCKET_NAME = "arquitetura-sistemas"
 s3_client = boto3.client('s3', region_name=AWS_REGION)
@@ -42,10 +41,7 @@ class FileUpload(Resource):
         file = request.files['file']
         if file.filename == '':
             return {"erro": "Nome do arquivo vazio!"}, 400
-        
-        # ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg'}
-        # if not allowed_file(file.filename, ALLOWED_EXTENSIONS):
-        #    return {"erro": "Extensão de arquivo não permitida."}, 400
+    
 
         unique_filename = f"{id}_{uuid.uuid4().hex}_{secure_filename(file.filename)}"
         s3_key = upload_file_to_s3(file, S3_BUCKET_NAME, unique_filename)
@@ -56,7 +52,7 @@ class FileUpload(Resource):
 
         collection.update_one({"_id": id}, {"$push": {"files": file_url}})
 
-        return jsonify({"message": "Arquivo enviado com sucesso!", "file_url": file_url})
+        return {"message": "Arquivo enviado com sucesso!", "file_url": file_url}, 200
     
 
 
@@ -94,7 +90,7 @@ class Patients(Resource):
         cep = data.get('cep')
         endereco = data.get('endereco')
         nome_mae = data.get('nome_mae')
-        conato_emergencia = data.get('conato_emergencia')
+        contato_emergencia = data.get('contato_emergencia')
         tipo_sanguineo = data.get('tipo_sanguineo')
         
         if not nome or not cpf:
@@ -113,7 +109,7 @@ class Patients(Resource):
             "cep": cep,
             "endereco": endereco, 
             "nome_mae": nome_mae, 
-            "conato_emergencia": conato_emergencia, 
+            "contato_emergencia": contato_emergencia, 
             "tipo_sanguineo": tipo_sanguineo 
         }
         
@@ -147,7 +143,7 @@ class PatientById(Resource):
         cep = data.get('cep')
         endereco = data.get('endereco')
         nome_mae = data.get('nome_mae')
-        conato_emergencia = data.get('conato_emergencia')
+        contato_emergencia = data.get('contato_emergencia')
         tipo_sanguineo = data.get('tipo_sanguineo')
         
         if data.get('cpf'):
@@ -163,8 +159,8 @@ class PatientById(Resource):
             update_data['contato'] = contato
         if cep:
             update_data['cep'] = cep
-        if conato_emergencia:
-            update_data['conato_emergencia'] = conato_emergencia
+        if contato_emergencia:
+            update_data['contato_emergencia'] = contato_emergencia
         if tipo_sanguineo:
             update_data['tipo_sanguineo'] = tipo_sanguineo
         if endereco:

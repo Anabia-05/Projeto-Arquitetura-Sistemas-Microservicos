@@ -103,6 +103,14 @@ class PatientById(Resource):
  
  
 class FileUpload(Resource):
+    def get(self, id):
+        user = collection.find_one({"_id": id})
+        if user is None:
+            return {"erro": "Paciente não encontrado!"}, 404
+        
+        files = user.get("files", [])
+        return {"files": files}, 200
+        
     def post(self, id):
         user = collection.find_one({"_id": id})
         if not user:

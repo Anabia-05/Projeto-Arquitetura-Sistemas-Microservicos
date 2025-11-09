@@ -87,18 +87,69 @@ class Patients(Resource):
  
 class PatientById(Resource):
     def get(self, id):
+
         user = collection.find_one({"_id": id})
-        if not user:
+
+        if user is None:
             return {"erro": "Paciente não encontrado!"}, 404
+
         user['_id'] = str(user['_id'])
+
         return jsonify(user)
-   
+
+
+    def put(self, id):
+        data = request.get_json(force=True)
+        nome = data.get('nome')
+        data_nascimento = data.get('data_nascimento')
+        contato = data.get('contato')
+        cep = data.get('cep')
+        endereco = data.get('endereco')
+        nome_mae = data.get('nome_mae')
+        contato_emergencia = data.get('contato_emergencia')
+        tipo_sanguineo = data.get('tipo_sanguineo')
+
+        if data.get('cpf'):
+             return {"erro": "Não é permitido alterar o campo 'cpf' (ID primário) usando esta rota."}, 403
+
+
+        update_data = {}
+        if nome:
+            update_data['nome'] = nome
+        if data_nascimento:
+            update_data['data_nascimento'] = data_nascimento
+        if contato:
+            update_data['contato'] = contato
+        if cep:
+            update_data['cep'] = cep
+        if contato_emergencia:
+            update_data['contato_emergencia'] = contato_emergencia
+        if tipo_sanguineo:
+            update_data['tipo_sanguineo'] = tipo_sanguineo
+        if endereco:
+            update_data['endereco'] = endereco
+        if nome_mae:
+            update_data['nome_mae'] = nome_mae
+
+        if not update_data:
+            return {"erro": "Nenhum campo para atualizacao foi fornecido."}, 400
+
+
+        patient = collection.update_one({"_id": id}, {"$set": update_data})
+
+        if patient.matched_count == 0:
+            return {"erro": "Paciente não encontrado!"}, 404
+
+        return jsonify({"message": "Paciente atualizado com sucesso!"})
+
     def delete(self, id):
+
         user = collection.find_one({"_id": id})
         if user is None:
             return {"erro": "Paciente não encontrado!"}, 404
- 
+
         collection.delete_one({"_id": id})
+
         return jsonify({"message": "Paciente deletado com sucesso!"})
  
  

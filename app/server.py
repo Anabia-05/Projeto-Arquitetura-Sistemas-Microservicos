@@ -182,6 +182,31 @@ class FileUpload(Resource):
         file_url = f"https://{S3_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com/{s3_key}"
         collection.update_one({"_id": id}, {"$push": {"files": file_url}})
         return {"message": "Arquivo enviado com sucesso!", "file_url": file_url}, 200
+
+    def delete(self, id):
+        user = collection.find_one({"_id": id})
+        if user is None:
+            return {"erro": "Paciente não encontrado!"}, 404
+
+        data = request.get_json(force=True)
+        file_url = data.get("file_url")
+        if not file_url:
+            return {"erro": "URL do arquivo não fornecida!"}, 400
+
+        if "files" not in user or file_url not in user["files"]:
+            return {"erro": "Arquivo não encontrado para este paciente!"}, 404
+
+        s3_key = file_url.split(f"https://{S3_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com/")[-1]
+
+        try:
+            s3_client.delete_object(Bucket=S3_BUCKET_NAME, Key=s3_key)
+        except ClientError as e:
+            logging.error(f"Erro ao deletar o arquivo do S3: {e}")
+            return {"erro": "Falha ao deletar o arquivo do S3."}, 500
+
+        collection.update_one({"_id": id}, {"$pull": {"files": file_url}})
+
+        return {"message": "Arquivo deletado com sucesso!"}, 200
  
  
 class HistoricoGeral(Resource):

@@ -84,6 +84,11 @@ curl -X POST http://localhost:5000/patients/*cpf*/upload -F 'file=@caminho/nomeD
 
 > **Atenção:** O caminho do arquivo deve estar no formato **Linux** ao usar o Git Bash (use `/` e `c/Users/` ao invés de `C:\Users\`).
 
+#### 🧾 Comando para DELETE de Arquivo
+
+```bash
+ curl -X DELETE "http://localhost:5000/patients/*cpf*/upload"   -H "Content-Type: application/json"   -d '{"file_url": "URL_do_arquivo"}'
+```
 ---
 
 ### 🔗 Acesso do Arquivo

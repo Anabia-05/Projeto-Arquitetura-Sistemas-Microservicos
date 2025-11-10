@@ -52,7 +52,7 @@ Você pode testar via **curl** (recomendado: Git Bash).
 
 | Operação        | Método | Endpoint            | Exemplo de Comando curl |
 |-----------------|--------|--------------------|--------------------------|
-| **Cadastrar**   | POST   | `/patients`        | ```bash curl 18.216.190.52:5000/patients -H "Content-Type: application/json" -d '{"nome": "Maria Clara da Silva", "cpf": "123.456.789-00", "data_nascimento": "15-07-1992", "contato": "99999-1234", "cep": "51020-310", "endereco": "Rua das Flores, 250 - Boa Viagem, Recife - PE", "nome_mae": "Ana Lúcia da Silva", "contato_emergencia": "98888-5678", "tipo_sanguineo": "O+"}' ``` |
+| **Cadastrar**   | POST   | `/patients`        | ```bash curl 18.216.190.52:5000/patients -H "Content-Type: application/json" -d '{"nome": "Maria Clara da Silva", "cpf": "123.456.789-00", "data_nascimento": "15-07-1992", "contato": "99999-1234", "cep": "51020-310", "endereco": "Rua das Flores, 250 - Boa Viagem, Recife - PE", "nome_mae": "Ana Lucia da Silva", "contato_emergencia": "98888-5678", "tipo_sanguineo": "O+"}' ``` |
 | **Buscar Todos**| GET    | `/patients`        | ```bash curl http://18.216.190.52:5000/patients ``` |
 | **Buscar por CPF** | GET | `/patients/{cpf}` | ```bash curl http://18.216.190.52:5000/patients/111.222.333-44 ``` |
 | **Atualizar**   | PUT    | `/patients/{cpf}` | ```bash curl -X PUT http://18.216.190.52:5000/patients/111.222.333-44 -H "Content-Type: application/json" -d '{"contato": "1111-2222"}' ``` |
@@ -66,7 +66,7 @@ Gerencia ocorrências (inserção, remoção e consulta) no prontuário do pacie
 
 | Operação            | Método | Exemplo de Comando curl |
 |----------------------|--------|--------------------------|
-| **Inserir Ocorrência** | POST | ```bash curl -X POST http://18.216.190.52:5000/patients/123.456.789-00/historico -H "Content-Type: application/json" -d '{"ocorrencia": "Consulta de rotina", "urgencia": "baixa"}' ``` |
+| **Inserir Ocorrência** | POST | ```bash curl -X POST http://18.216.190.52:5000/patients/123.456.789-00/historico -H "Content-Type: application/json" -d '{"ocorrencia": "Consulta de rotina", "urgencia": "alta"}' ``` |
 | **Remover Ocorrência** | DELETE | ```bash curl -X DELETE http://18.216.190.52:5000/patients/111.111.111-11/historico -H "Content-Type: application/json" -d '{"_id": "[ID_DA_OCORRENCIA]"}' ``` |
 | **Consultar Histórico** | GET | ```bash curl 18.216.190.52:5000/patients/111.111.111-11/historico ``` |
 

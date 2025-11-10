@@ -2,6 +2,18 @@
 
 Este projeto é um **microsserviço Python/Flask** responsável pelo gerenciamento de pacientes, utilizando **MongoDB** como banco de dados e **Docker Compose** para orquestração do ambiente.
 
+## Acesso ao Sistema
+
+O sistema pode ser acessado de duas formas:
+
+1. **Acesso Público**: 
+   - URL: http://18.216.190.52:5000
+   - Disponível para uso imediato sem necessidade de configuração
+
+2. **Execução Local**:
+   - Requer Docker e Docker Compose instalados
+   - Instruções de configuração detalhadas abaixo
+
 ---
 
 ## Visão Geral
@@ -11,16 +23,16 @@ Ele pode ser executado de forma isolada via **Docker**, sem necessidade de confi
 
 ---
 
-## Pré-requisitos
+## Execução Local (Opcional)
 
-Para executar o sistema localmente, é necessário ter instalado:
+Se você optar por executar o sistema localmente ao invés de usar o acesso público, será necessário:
+
+### Pré-requisitos
 
 - **Docker**
 - **Docker Compose**
 
----
-
-## Execução do Sistema
+### Iniciando o Sistema Local
 
 Para subir o ambiente completo (**API + MongoDB**), execute no diretório raiz do projeto — onde está localizado o arquivo `docker-compose.yml`:
 
@@ -29,15 +41,17 @@ docker-compose up --build
 ```
 
 > O parâmetro `--build` garante que a imagem da API seja reconstruída com a versão mais recente do seu `server.py`.
+> Após a execução, o sistema estará disponível em http://localhost:5000
 
 ---
 
 ## Serviços do Sistema
 
-| Serviço | Tecnologia         | Endereço de Acesso              |
-|----------|--------------------|--------------------------------|
-| api      | Flask (Python 3.9) | http://18.216.190.52:5000          |
-| mongo    | MongoDB            | Porta 27018 (Host)             |
+| Serviço | Tecnologia         | Endereço de Acesso                          |
+|----------|--------------------|-------------------------------------------|
+| api      | Flask (Python 3.9) | http://18.216.190.52:5000 (Acesso público) |
+|          |                    | http://localhost:5000 (Execução local)     |
+| mongo    | MongoDB            | Porta 27018 (Host)                         |
 
 ---
 
@@ -45,6 +59,9 @@ docker-compose up --build
 
 A API está configurada para o recurso **Pacientes (`/patients`)** e recursos aninhados, permitindo o ciclo completo de gerenciamento.  
 Você pode testar via **curl** (recomendado: Git Bash).
+
+> **Nota importante**: Os comandos de exemplo abaixo utilizam o endereço público (http://18.216.190.52:5000). 
+> Para execução local, basta substituir por http://localhost:5000 mantendo o resto do comando idêntico.
 
 ---
 

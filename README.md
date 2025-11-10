@@ -36,7 +36,7 @@ docker-compose up --build
 
 | Serviço | Tecnologia         | Endereço de Acesso              |
 |----------|--------------------|--------------------------------|
-| api      | Flask (Python 3.9) | http://localhost:5000          |
+| api      | Flask (Python 3.9) | http://18.216.190.52:5000          |
 | mongo    | MongoDB            | Porta 27018 (Host)             |
 
 ---
@@ -52,11 +52,11 @@ Você pode testar via **curl** (recomendado: Git Bash).
 
 | Operação        | Método | Endpoint            | Exemplo de Comando curl |
 |-----------------|--------|--------------------|--------------------------|
-| **Cadastrar**   | POST   | `/patients`        | ```bash curl localhost:5000/patients -H "Content-Type: application/json" -d '{"nome": "Maria Clara da Silva", "cpf": "123.456.789-00", "data_nascimento": "15-07-1992", "contato": "99999-1234", "cep": "51020-310", "endereco": "Rua das Flores, 250 - Boa Viagem, Recife - PE", "nome_mae": "Ana Lúcia da Silva", "contato_emergencia": "98888-5678", "tipo_sanguineo": "O+"}' ``` |
-| **Buscar Todos**| GET    | `/patients`        | ```bash curl http://localhost:5000/patients ``` |
-| **Buscar por CPF** | GET | `/patients/{cpf}` | ```bash curl http://localhost:5000/patients/111.222.333-44 ``` |
-| **Atualizar**   | PUT    | `/patients/{cpf}` | ```bash curl -X PUT http://localhost:5000/patients/111.222.333-44 -H "Content-Type: application/json" -d '{"contato": "1111-2222"}' ``` |
-| **Deletar**     | DELETE | `/patients/{cpf}` | ```bash curl -X DELETE http://localhost:5000/patients/111.222.333-44 ``` |
+| **Cadastrar**   | POST   | `/patients`        | ```bash curl 18.216.190.52:5000/patients -H "Content-Type: application/json" -d '{"nome": "Maria Clara da Silva", "cpf": "123.456.789-00", "data_nascimento": "15-07-1992", "contato": "99999-1234", "cep": "51020-310", "endereco": "Rua das Flores, 250 - Boa Viagem, Recife - PE", "nome_mae": "Ana Lúcia da Silva", "contato_emergencia": "98888-5678", "tipo_sanguineo": "O+"}' ``` |
+| **Buscar Todos**| GET    | `/patients`        | ```bash curl http://18.216.190.52:5000/patients ``` |
+| **Buscar por CPF** | GET | `/patients/{cpf}` | ```bash curl http://18.216.190.52:5000/patients/111.222.333-44 ``` |
+| **Atualizar**   | PUT    | `/patients/{cpf}` | ```bash curl -X PUT http://18.216.190.52:5000/patients/111.222.333-44 -H "Content-Type: application/json" -d '{"contato": "1111-2222"}' ``` |
+| **Deletar**     | DELETE | `/patients/{cpf}` | ```bash curl -X DELETE http://18.216.190.52:5000/patients/111.222.333-44 ``` |
 
 ---
 
@@ -66,9 +66,9 @@ Gerencia ocorrências (inserção, remoção e consulta) no prontuário do pacie
 
 | Operação            | Método | Exemplo de Comando curl |
 |----------------------|--------|--------------------------|
-| **Inserir Ocorrência** | POST | ```bash curl -X POST http://localhost:5000/patients/123.456.789-00/historico -H "Content-Type: application/json" -d '{"ocorrencia": "Consulta de rotina", "urgencia": "baixa"}' ``` |
-| **Remover Ocorrência** | DELETE | ```bash curl -X DELETE http://localhost:5000/patients/111.111.111-11/historico -H "Content-Type: application/json" -d '{"_id": "[ID_DA_OCORRENCIA]"}' ``` |
-| **Consultar Histórico** | GET | ```bash curl localhost:5000/patients/111.111.111-11/historico ``` |
+| **Inserir Ocorrência** | POST | ```bash curl -X POST http://18.216.190.52:5000/patients/123.456.789-00/historico -H "Content-Type: application/json" -d '{"ocorrencia": "Consulta de rotina", "urgencia": "baixa"}' ``` |
+| **Remover Ocorrência** | DELETE | ```bash curl -X DELETE http://18.216.190.52:5000/patients/111.111.111-11/historico -H "Content-Type: application/json" -d '{"_id": "[ID_DA_OCORRENCIA]"}' ``` |
+| **Consultar Histórico** | GET | ```bash curl 18.216.190.52:5000/patients/111.111.111-11/historico ``` |
 
 ---
 
@@ -79,7 +79,7 @@ Envia arquivos para o prontuário do paciente, que serão armazenados no **AWS S
 #### 🧾 Comando para Upload de Arquivo
 
 ```bash
-curl -X POST http://localhost:5000/patients/*cpf*/upload -F 'file=@caminho/nomeDoArquivo.extensao'
+curl -X POST http://18.216.190.52:5000/patients/*cpf*/upload -F 'file=@caminho/nomeDoArquivo.extensao'
 ```
 
 > **Atenção:** O caminho do arquivo deve estar no formato **Linux** ao usar o Git Bash (use `/` e `c/Users/` ao invés de `C:\Users\`).
@@ -87,7 +87,7 @@ curl -X POST http://localhost:5000/patients/*cpf*/upload -F 'file=@caminho/nomeD
 #### 🧾 Comando para DELETE de Arquivo
 
 ```bash
- curl -X DELETE "http://localhost:5000/patients/*cpf*/upload"   -H "Content-Type: application/json"   -d '{"file_url": "URL_do_arquivo"}'
+ curl -X DELETE "http://18.216.190.52:5000/patients/*cpf*/upload"   -H "Content-Type: application/json"   -d '{"file_url": "URL_do_arquivo"}'
 ```
 ---
 
@@ -97,7 +97,7 @@ Após o upload, será exibido o link de confirmação com o endereço para downl
 
 Outras opções:
 
-- Acessar: `http://localhost:5000/patients/*cpf*`
+- Acessar: `http://18.216.190.52:5000/patients/*cpf*`
 - Acessar diretamente o bucket pela **AWS Cloud** e procurar o arquivo nos objetos.
 
 ---
